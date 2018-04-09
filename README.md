@@ -14,6 +14,6 @@ Python script to edit and view Google Calendar events from the command line.
 
 ## Authors
 
-* **Noah Kim** - *Initial work* - [Noah Kim](noahdkim.com)
+* **Noah Kim** - *Initial work* - [noahdkim.com](noahdkim.com)
 
 ## Acknowledgments
