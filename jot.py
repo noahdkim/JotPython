@@ -4,7 +4,9 @@ from apiclient import discovery
 import validate
 import datetime
 import interpret
+import jot_calendar
 
+CALENDAR_ID = 'u8jj8hlk075sv057h3uuda1hg0@group.calendar.google.com'
 def add_to_calendar(event):
     print(event)
 
@@ -12,15 +14,19 @@ def main():
     ## Begin setup ##
     credentials = validate.get_credentials()
     http = credentials.authorize(httplib2.Http())
+
     service = discovery.build('calendar', 'v3', http=http)
+
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     ## Setup complete ##
     while True:
         ## Take in Request ##
         query = input("Jot> ")
-        request, event, time = interpret.evaluate(query)
-        if request=="add":
-            add_to_calendar(event)
+        action, event, time = interpret.evaluate(query)
+        if action=="add":
+            jot_calendar.add(event, service, CALENDAR_ID)
+        elif action=="edit":
+            jot_calendar.edit(event)
         else:
             break
 
@@ -28,7 +34,7 @@ def main():
 
     print('Getting the upcoming 10 events')
     eventsResult = service.events().list(
-        calendarId='u8jj8hlk075sv057h3uuda1hg0@group.calendar.google.com', timeMin=now, maxResults=10, singleEvents=True,
+        calendarId=CALENDAR_ID, timeMin=now, maxResults=10, singleEvents=True,
         orderBy='startTime').execute()
     events = eventsResult.get('items', [])
 
