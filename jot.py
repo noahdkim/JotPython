@@ -22,11 +22,13 @@ def main():
     while True:
         ## Take in Request ##
         query = input("Jot> ")
-        action, event, time = interpret.evaluate(query)
+        action, event = interpret.evaluate(query)
         if action=="add":
-            jot_calendar.add(event, service, CALENDAR_ID)
+            jot_calendar.add(event, service)
         elif action=="edit":
             jot_calendar.edit(event)
+        elif action=="show":
+            jot_calendar.show(num_events)
         else:
             break
 
